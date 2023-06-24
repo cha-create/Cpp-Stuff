@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-//TODO: fix login 
+//TODO: fix login screen not logging out  
 using namespace std;
 bool isLoggedIn = false;
 std::string userOpt = "";
@@ -31,12 +31,14 @@ class User {
     std::string password;
   public:
     std::string login;
-    bool checkInfo(std::string log, std::string pass) {
-      if (log.find(User::login) != string::npos && pass.find(User::password) != string::npos) {
-        cout << User::login;
-        cout << log << endl;
-        cout << pass;
-        cout << User::password << endl;
+    bool checkInfo(string log, string pass) {
+      cout << "login: " << login << endl;
+      cout << "log: " << log << endl;
+      cout << "pass: " << pass << endl;
+      cout << "password: " << password << endl; 
+      cout << "log.find: " << log.find(login);
+      cout << "pass.find: " << pass.find(password);
+      if (log.find(login) != string::npos && pass.find(password) != string::npos) {
         return true;
       }
       else {
@@ -47,18 +49,23 @@ class User {
 
     void setInfo() {
       cout << "Please Enter Your Desired Password: ";
-      cin >> User::password;
+      cin >> password;
       cout << "Please Enter Your Desired Login: ";
-      cin >> User::login;
-      cout << "Your Password is: " << password << endl;
-      cout << "Your Login is: " << login << endl;
+      cin >> login;
+      //cout << "Your Password is: " << password << endl;
+      //cout << "Your Login is: " << login << endl;
     } 
-
+    
+    void dumpInfo() {
+      cout << "Login: " << login << endl;
+      cout << "Password: " << password << endl;
+    }
 
 };
 
 
-void loginScreen(User us1){
+void loginScreen(User& us1){
+  us1.dumpInfo();
   std::string pass = "";
   std::string log = "";
   cout << "Please enter your login: ";
@@ -85,8 +92,9 @@ void getUserOpt() {
 
 
 
-void registrationScreen(User us1) {
+void registrationScreen(User& us1) {
   us1.setInfo();
+  us1.dumpInfo();
   return;
 
 }
