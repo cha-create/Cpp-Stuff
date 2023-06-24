@@ -3,6 +3,8 @@
 //TODO: fix login screen not logging out  
 using namespace std;
 bool isLoggedIn = false;
+bool isRunning = true;
+bool hasRegistered = false;
 std::string userOpt = "";
 std::string menuScreen =
 "                -------------------------\n"
@@ -32,12 +34,6 @@ class User {
   public:
     std::string login;
     bool checkInfo(string log, string pass) {
-      cout << "login: " << login << endl;
-      cout << "log: " << log << endl;
-      cout << "pass: " << pass << endl;
-      cout << "password: " << password << endl; 
-      cout << "log.find: " << log.find(login);
-      cout << "pass.find: " << pass.find(password);
       if (log.find(login) != string::npos && pass.find(password) != string::npos) {
         return true;
       }
@@ -48,12 +44,12 @@ class User {
 
 
     void setInfo() {
-      cout << "Please Enter Your Desired Password: ";
-      cin >> password;
       cout << "Please Enter Your Desired Login: ";
       cin >> login;
-      //cout << "Your Password is: " << password << endl;
-      //cout << "Your Login is: " << login << endl;
+      cout << "Please Enter Your Desired Password: ";
+      cin >> password;
+      cout << "Your Login is: " << login << endl;
+      cout << "Your Password is: " << password << endl;
     } 
     
     void dumpInfo() {
@@ -65,7 +61,6 @@ class User {
 
 
 void loginScreen(User& us1){
-  us1.dumpInfo();
   std::string pass = "";
   std::string log = "";
   cout << "Please enter your login: ";
@@ -85,7 +80,6 @@ void loginScreen(User& us1){
 
 void getUserOpt() {
   userOpt = "";
-  cout << userOpt;
   cin >> userOpt;
   
 }
@@ -94,7 +88,7 @@ void getUserOpt() {
 
 void registrationScreen(User& us1) {
   us1.setInfo();
-  us1.dumpInfo();
+  hasRegistered = true;
   return;
 
 }
@@ -102,35 +96,35 @@ void registrationScreen(User& us1) {
 
 int main() {
   User us1;
-  for(int i = 0; i < 100; i++) {
+  while(isRunning) {
     if (isLoggedIn) {
       cout << loggedInScreen << endl;
       cout << "Please Select an Option: ";
       getUserOpt();
       if (userOpt.find("Q") != string::npos) {
-        break;      
+        isRunning = false;      
       }
-      else if (userOpt.find("L")) {
+      else if (userOpt.find("L") != string::npos) {
         isLoggedIn = false;
-        break;
       }
     }
-
-    cout << menuScreen << endl;
-    cout << "Please Select an Option: ";
-    getUserOpt();
-    if (userOpt.find("L") != string::npos) {
-      loginScreen(us1);
-    }
-    else if (userOpt.find("Q") != string::npos) {
-      return 0;
-    }
-    else if (userOpt.find("R") != string::npos) {
-      registrationScreen(us1);
-    }
-    else if (userOpt.find("L") == string::npos) {
-    cout << "Invalid Entry" << endl;
-    }
+    else {
+      cout << menuScreen << endl;
+      cout << "Please Select an Option: ";
+      getUserOpt();
+      if (userOpt.find("L") != string::npos && hasRegistered) {
+        loginScreen(us1);
+      }
+      if (userOpt.find("L") != string::npos && !hasRegistered) {
+        cout << "Please register first!\n";
+      }
+      else if (userOpt.find("Q") != string::npos) {
+        isRunning = false;
+      }
+      else if (userOpt.find("R") != string::npos) {
+        registrationScreen(us1);
+      }
+    }   
   }                                                
 
   return 0;
