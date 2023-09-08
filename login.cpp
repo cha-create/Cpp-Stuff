@@ -1,6 +1,5 @@
 #include <iostream>
-#include <string>
-//TODO: fix login screen not logging out  
+#include <string>  
 using namespace std;
 bool isLoggedIn = false;
 bool isRunning = true;
