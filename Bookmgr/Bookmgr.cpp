@@ -3,7 +3,7 @@
 #include <list>
 #include <ctime>
 #include <cstdlib>
-//TODO: fix stoi crashing program and add book id change function
+//TODO:Add book id change function
 using namespace std;
 bool isRunning = true;
 string userOpt = "";
@@ -79,18 +79,19 @@ int generateBookID() {
 
 void addBook() {
 	string bNameIn;
-	string bQuanIn;
+	int  bQuanIn;
 	int bID;
 	cout << "Please Enter Book Name: ";
-	cin >> bNameIn;
+	cin.ignore(1);
+	getline(cin,  bNameIn);
 	cout << "Please Enter Book Quantity: ";
 	cin >> bQuanIn;
 	cout << "Generating Book ID";
 	bID = generateBookID();
 	cout << endl;
 	cout << "Book ID: " << bID << "\n";
-	int quantity = stoi(bQuanIn);
-	book newBook{bNameIn, quantity, bID};
+	//int quantity = stoi(bQuanIn);
+	book newBook{bNameIn, bQuanIn, bID};
 	bookList.push_back(newBook);
 	cout << "New Book Added With Name: " << bNameIn << ", A Quantity of: " << bQuanIn << ", and an ID of: " << bID << ".\n";
 }
