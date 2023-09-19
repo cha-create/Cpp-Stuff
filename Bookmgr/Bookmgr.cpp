@@ -1,11 +1,14 @@
 #include <iostream>
 #include <string>
+#include <cstring>
 #include <list>
 #include <ctime>
 #include <cstdlib>
+#include <cctype>
 //TODO:Add book id change function
 using namespace std;
 bool isRunning = true;
+string letters = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
 string userOpt = "";
 string adminPass = "charley18";
 string startScreen = 
@@ -40,6 +43,16 @@ struct book {
 	}
 };
 std::list<book> bookList;
+
+string findString(const string& inString) {
+	for (char charElement : inString) {
+		string stringElement(1, charElement);
+		if (stringElement.find(letters)) {
+			return stringElement;
+		}
+	}
+	return nullptr;
+} 
 
 book* findBook(int id) {
 	for (auto& book : bookList) {
@@ -96,6 +109,33 @@ void addBook() {
 	cout << "New Book Added With Name: " << bNameIn << ", A Quantity of: " << bQuanIn << ", and an ID of: " << bID << ".\n";
 }
 
+void editBookID() {
+	string inID;
+	string inBook;	
+	cout << "Please Select a Book From This List by Book ID: ";
+	for (auto& book : bookList) {
+		book.printInfo();
+	}
+	cin.ignore(1);
+	getline(cin, inID);
+	cout << "Please enter a new book ID or type 'G' to regenerate one: ";
+	if (findString != nullptr) {
+		if (findString(inID)) {
+			bookptr -> id = generateBookID();
+		}
+		else {
+			cout << "Invalid Entry";
+		}
+	}
+	book* bookptr = findBook(stoi(inID));
+	else {
+		bookptr -> id = stoi(inID);
+	}
+	
+
+}
+
+
 
 void writeMenu() {
 	string passIn;
@@ -107,6 +147,9 @@ void writeMenu() {
 		getUserOpt();
 		if (userOpt.find("A") != string::npos) {
 			addBook();
+		}
+		else if (userOpt.find("E") != string::npos) {
+			editBookID();
 		}
 	} 
 
