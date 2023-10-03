@@ -5,10 +5,13 @@
 #include <ctime>
 #include <cstdlib>
 #include <cctype>
-//TODO:Add book id change function
 using namespace std;
 bool isRunning = true;
-string letters = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+// Finished! If I ever come back to this project, I'd probably want to add these things:
+//Writing to a .txt file to save books across program executions
+//Error checking... everywhere
+//Code commenting for readability
+//string letters = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
 string userOpt = "";
 string adminPass = "charley18";
 string startScreen = 
@@ -39,20 +42,26 @@ struct book {
 	int amount;
 	int id;
 	void printInfo() {
-		cout<<name<< "             " <<id<<endl; //Fix output alignment varying based on book name length
+		int spaceLength;
+		spaceLength = 30 - name.length();
+		cout << name;
+		for (int i = 0; i < spaceLength; i++) {
+			cout << " ";
+		}
+		cout<<id<<endl; //Fix output alignment varying based on book name length
 	}
 };
 std::list<book> bookList;
 
-string findString(const string& inString) {
-	for (char charElement : inString) {
-		string stringElement(1, charElement);
-		if (stringElement.find(letters)) {
-			return stringElement;
-		}
-	}
-	return nullptr;
-} 
+//string findString(const string& inString) {
+//	for (char charElement : inString) {
+//		string stringElement(1, charElement);
+//		if (stringElement.find(letters)) {
+//			return stringElement;
+//		}
+//	}
+//	return nullptr;
+//} 
 
 book* findBook(int id) {
 	for (auto& book : bookList) {
@@ -75,15 +84,15 @@ void readScreen() {
  
 void welcomeScreen() {
 	cout << startScreen << endl;
-		cout << "Welcome. Please Select an Option: ";
-		getUserOpt();
-		return;
+	cout << "Welcome. Please Select an Option: ";
+	getUserOpt();
+	return;
 }
 
 int generateBookID() {
 	int id;
 	srand(static_cast<unsigned int>(time(nullptr)));
-	for(int i = 0; i < 8; i++) {
+	for(int i = 0; i < 4; i++) {
 		id = id * 10 + (rand() % 10);
 	}
 	return id;
@@ -110,29 +119,30 @@ void addBook() {
 }
 
 void editBookID() {
-	string inID;
-	string inBook;	
-	cout << "Please Select a Book From This List by Book ID: ";
-	for (auto& book : bookList) {
-		book.printInfo();
-	}
-	cin.ignore(1);
-	getline(cin, inID);
-	cout << "Please enter a new book ID or type 'G' to regenerate one: ";
-	if (findString != nullptr) {
-		if (findString(inID)) {
-			bookptr -> id = generateBookID();
-		}
-		else {
-			cout << "Invalid Entry";
-		}
-	}
-	book* bookptr = findBook(stoi(inID));
-	else {
-		bookptr -> id = stoi(inID);
-	}
-	
+    string inID;
+    string inBook;    
+    cout << "Please Select a Book From This List by Book ID: " << endl;
+    for (auto& book : bookList) {
+        book.printInfo();
+    }
+    cin.ignore(1);
+    cout << ":";
+    getline(cin, inBook);
+    book* bookptr = findBook(stoi(inBook));
+    cout << "Please enter a new book ID or type 'G' to regenerate one: ";
+    cin >> inID;
+//    if (findString(inID).empty()) {
+//        cout << "Invalid Entry";
+//    }
+    cout << "INID: " << inID << endl;
 
+    if (inID.find("G") != string::npos || inID.find("g") != string::npos) {
+        bookptr->id = generateBookID();
+    }
+ 	else{
+        bookptr->id = stoi(inID);
+    }
+   	cout << "Book ID changed to: " << bookptr->id << endl;
 }
 
 
@@ -158,8 +168,16 @@ void writeMenu() {
 		return;
 	}
 }
-
+	
 int main() {
+	book book1 = {"Elden Ring", 52, 69}; // Example Books
+	bookList.push_back(book1);
+	book book2 = {"Elden Roadffdsa", 523, 6679};
+	bookList.push_back(book2);
+	book book3 = {"Elden Roadffdsadfafasfads", 523, 6679};
+	bookList.push_back(book3);
+	book book4 = {"ask", 43, 659};
+	bookList.push_back(book4);
 	while(true) {
 		if (isRunning) {
 			welcomeScreen();
