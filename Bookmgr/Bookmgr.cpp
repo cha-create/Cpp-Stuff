@@ -11,7 +11,7 @@ bool isRunning = true;
 //Writing to a .txt file to save books across program executions
 //Error checking... everywhere
 //Code commenting for readability
-//string letters = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+string letters = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
 string userOpt = "";
 string adminPass = "charley18";
 string startScreen = 
@@ -20,6 +20,7 @@ string startScreen =
 "|                   |\n"
 "|   [R]ead(user)    |\n"
 "|   [W]rite(admin)  |\n"
+"|   [Q]uit          |\n"
 "|                   |\n"
 "---------------------\n";
 
@@ -48,20 +49,17 @@ struct book {
 		for (int i = 0; i < spaceLength; i++) {
 			cout << " ";
 		}
-		cout<<id<<endl; //Fix output alignment varying based on book name length
+		cout<<id<<endl; 
 	}
 };
 std::list<book> bookList;
-
-//string findString(const string& inString) {
-//	for (char charElement : inString) {
-//		string stringElement(1, charElement);
-//		if (stringElement.find(letters)) {
-//			return stringElement;
-//		}
-//	}
-//	return nullptr;
-//} 
+// This Function Theorettically should work, but I dont have a debugger rn so idk why it doesn't
+bool findletters(string instring) {
+	if(instring.find("qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM") != string::npos) {
+		return true;
+	}
+	return false;
+} 
 
 book* findBook(int id) {
 	for (auto& book : bookList) {
@@ -78,6 +76,10 @@ void readScreen() {
 	}
 	cout << "Please Select a Book From This List by The Book ID: ";
 	getUserOpt();
+	if (findletters(userOpt)) { // doesn't work 
+		cout << "Invalid Entry. Please make sure your id is only numbers." << endl;
+		return;
+	}
 	book* selectedBook = findBook(stoi(userOpt));
 	selectedBook->printInfo();
 }
@@ -181,11 +183,17 @@ int main() {
 	while(true) {
 		if (isRunning) {
 			welcomeScreen();
-			if (userOpt.find("R") != string::npos) {
+			if (userOpt.find("R") != string::npos || userOpt.find("r") != string::npos ) {
 				readScreen();
 			}
-			else if(userOpt.find("W") != string::npos) {
+			else if(userOpt.find("W") != string::npos || userOpt.find("w") != string::npos) {
 				writeMenu();
+			}
+			if (userOpt.find("Q") != string::npos || userOpt.find("q") != string::npos) {
+				return 0;
+			}
+			else {
+				cout << "Please either Q, W, or R." << endl;
 			}
 		}	
 	}
