@@ -15,23 +15,24 @@ string letters = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
 string userOpt = "";
 string adminPass = "charley18";
 string startScreen = 
-"---------------------\n"
+"|-------------------|\n"
 "|    BookMgr V0.1   |\n"
 "|                   |\n"
 "|   [R]ead(user)    |\n"
 "|   [W]rite(admin)  |\n"
 "|   [Q]uit          |\n"
 "|                   |\n"
-"---------------------\n";
+"|-------------------|\n";
 
 string writeScreen = 
-"---------------------\n"
+"|-------------------|\n"
 "|       Admin       |\n"
 "|                   |\n"
 "|  [A]dd Book       |\n"
 "|  [E]dit Book ID   |\n"
+"|  [Q]uit To Main   |\n"
 "|                   |\n"
-"--------------------|\n";
+"|-------------------|\n";
 
 void getUserOpt() {
 	userOpt = "";
@@ -81,7 +82,9 @@ void readScreen() {
 		return;
 	}
 	book* selectedBook = findBook(stoi(userOpt));
-	selectedBook->printInfo();
+	cout << "Book: ";
+  selectedBook->printInfo();
+  cout << "Quantity: " << selectedBook->amount << endl;
 }
  
 void welcomeScreen() {
@@ -163,7 +166,11 @@ void writeMenu() {
 		else if (userOpt.find("E") != string::npos) {
 			editBookID();
 		}
-	} 
+    else if (userOpt.find("Q") != string::npos) {
+    userOpt = "";
+      return;
+    }
+  } 
 
 	else if (passIn != adminPass) {
 		cout << "The password you have provided is incorrect." << endl;
