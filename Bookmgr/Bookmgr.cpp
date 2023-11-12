@@ -14,6 +14,7 @@ bool isRunning = true;
 string letters = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
 string userOpt = "";
 string adminPass = "charley18";
+//Start Screens
 string startScreen = 
 "|-------------------|\n"
 "|    BookMgr V0.1   |\n"
@@ -34,11 +35,12 @@ string writeScreen =
 "|                   |\n"
 "|-------------------|\n";
 
+//basic function to wipe userOpt buffer then write to it
 void getUserOpt() {
 	userOpt = "";
 	cin >> userOpt;
 }
-
+//defining book struct
 struct book {
 	string name;
 	int amount;
@@ -54,7 +56,7 @@ struct book {
 	}
 };
 std::list<book> bookList;
-// This Function Theorettically should work, but I dont have a debugger rn so idk why it doesn't
+//This Function Theorettically should work, but I dont have a debugger rn so idk why it doesn't
 bool findletters(string instring) {
 	if(instring.find("qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM") != string::npos) {
 		return true;
@@ -62,6 +64,7 @@ bool findletters(string instring) {
 	return false;
 } 
 
+//returns a pointer to a book in the array passed in 
 book* findBook(int id) {
 	for (auto& book : bookList) {
 		if(book.id == id) {
@@ -71,6 +74,10 @@ book* findBook(int id) {
 	return nullptr;
 }
 
+//the printinfo function the the book struct is used here to print all off the book stats exept for id. 
+//If there was more book stats, this function 
+//allows you to select a specific book by id and print out the details. 
+//Since we only have 3 book stats, we only print 2(TODO: print all 3)
 void readScreen() {
 	for(auto& book : bookList) {
 		book.printInfo();
@@ -86,7 +93,7 @@ void readScreen() {
   selectedBook->printInfo();
   cout << "Quantity: " << selectedBook->amount << endl;
 }
- 
+
 void welcomeScreen() {
 	cout << startScreen << endl;
 	cout << "Welcome. Please Select an Option: ";
@@ -103,7 +110,7 @@ int generateBookID() {
 	return id;
 }
 
-
+//asks the user for book stats then concatenates them into a new entry into the book struct.
 void addBook() {
 	string bNameIn;
 	int  bQuanIn;
@@ -122,7 +129,7 @@ void addBook() {
 	bookList.push_back(newBook);
 	cout << "New Book Added With Name: " << bNameIn << ", A Quantity of: " << bQuanIn << ", and an ID of: " << bID << ".\n";
 }
-
+//asks the user to edit a specific book id or generate a new one using the generateBookID functions above.
 void editBookID() {
     string inID;
     string inBook;    
@@ -151,7 +158,7 @@ void editBookID() {
 }
 
 
-
+//asks the user for credentials and then shows them the edit/write screen.
 void writeMenu() {
 	string passIn;
 	cout << "This task requires administrator access. Please enter the administrator password:" << endl;
@@ -178,6 +185,7 @@ void writeMenu() {
 	}
 }
 	
+//the main function that calls other functions depending on the screen shown.
 int main() {
 	book book1 = {"Elden Ring", 52, 69}; // Example Books
 	bookList.push_back(book1);
