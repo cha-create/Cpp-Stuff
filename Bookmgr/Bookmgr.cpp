@@ -54,6 +54,21 @@ struct book {
 		}
 		cout<<id<<endl; 
 	}
+  void print3Info() {
+    int spaceLength;
+    spaceLength = 20 - name.length();
+    cout << name;
+    for (int i = 0; i < spaceLength; i++) {
+      cout << " ";  
+    }
+    cout<< "Identifier: " << id;
+    spaceLength = 20 - sizeof(amount);
+    for (int i  = 0; i < spaceLength; i++) {
+      cout << " ";
+    }
+    cout<<"Quantity: " << amount << endl;
+
+  }
 };
 std::list<book> bookList;
 //This Function Theorettically should work, but I dont have a debugger rn so idk why it doesn't
@@ -75,27 +90,25 @@ book* findBook(int id) {
 }
 
 //the printinfo function the the book struct is used here to print all off the book stats exept for id. 
-//If there was more book stats, this function 
-//allows you to select a specific book by id and print out the details. 
-//Since we only have 3 book stats, we only print 2(TODO: print all 3)
+//If the user would like to know more information, the print3Info function 
+//prints out all 3 stats on the requested book. 
 void readScreen() {
 	for(auto& book : bookList) {
 		book.printInfo();
 	}
 	cout << "Please Select a Book From This List by The Book ID: ";
 	getUserOpt();
-	if (findletters(userOpt)) { // doesn't work 
+  if (findletters(userOpt)) { // doesn't work 
 		cout << "Invalid Entry. Please make sure your id is only numbers." << endl;
 		return;
 	}
 	book* selectedBook = findBook(stoi(userOpt));
 	cout << "Book: ";
-  selectedBook->printInfo();
-  cout << "Quantity: " << selectedBook->amount << endl;
+  selectedBook->print3Info();
 }
 
 void welcomeScreen() {
-	cout << startScreen << endl;
+  cout << "\033[32m\n" << startScreen << "\033[0m\n" << endl;
 	cout << "Welcome. Please Select an Option: ";
 	getUserOpt();
 	return;
@@ -164,7 +177,7 @@ void writeMenu() {
 	cout << "This task requires administrator access. Please enter the administrator password:" << endl;
 	cin >> passIn;
 	if (passIn == adminPass) {
-		cout << writeScreen;
+		cout << "\033[32m\n" << writeScreen << "\033[0m\n";
 		cout << "Please Select An Option: ";
 		getUserOpt();
 		if (userOpt.find("A") != string::npos) {
@@ -189,7 +202,7 @@ void writeMenu() {
 int main() {
 	book book1 = {"Elden Ring", 52, 69}; // Example Books
 	bookList.push_back(book1);
-	book book2 = {"Elden Roadffdsa", 523, 6679};
+	book book2 = {"Elden Roadffdsa", 523, 6379};
 	bookList.push_back(book2);
 	book book3 = {"Elden Roadffdsadfafasfads", 523, 6679};
 	bookList.push_back(book3);
