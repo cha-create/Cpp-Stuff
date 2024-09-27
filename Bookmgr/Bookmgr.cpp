@@ -3,8 +3,11 @@
 #include <cstring>
 #include <list>
 #include <ctime>
+#include <fstream>
 #include <cstdlib>
 #include <cctype>
+#include "json.hpp"
+using json = nlohmann::json;
 using namespace std;
 bool isRunning = true;
 // Finished! If I ever come back to this project, I'd probably want to add these things:
@@ -78,6 +81,33 @@ bool findletters(string instring) {
 	}
 	return false;
 } 
+
+
+
+int sync() {
+  ifstream f("doc.json");
+  json input = json::parse(f);
+  int c = 0;
+  for (auto i: input) {
+    c++;
+  }
+  if(input.is_array()) {
+    for (int i = 0; i < c; i++) {    
+      string name = input[i]["name"];
+      int id = input[i]["id"];
+      int amount = input[i]["amount"];
+      book newBook = {name, id, amount};
+      bookList.push_back(newBook);
+      cout << id << endl;
+    }  
+  }
+    return 0;  
+}
+  
+
+
+
+
 
 //returns a pointer to a book in the array passed in 
 book* findBook(int id) {
@@ -208,6 +238,7 @@ int main() {
 	bookList.push_back(book3);
 	book book4 = {"ask", 43, 659};
 	bookList.push_back(book4);
+  sync();
 	while(true) {
 		if (isRunning) {
 			welcomeScreen();
