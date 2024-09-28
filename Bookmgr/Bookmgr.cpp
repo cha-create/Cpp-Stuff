@@ -96,12 +96,28 @@ int sync() {
       string name = input[i]["name"];
       int id = input[i]["id"];
       int amount = input[i]["amount"];
-      book newBook = {name, id, amount};
-      bookList.push_back(newBook);
-      cout << id << endl;
-    }  
+      book newBook = {name, amount, id};
+			bool duplicate = false;
+			for (auto& b: bookList) {
+				if(b.id == id) {
+					duplicate = true;
+					break;
+				}
+			}
+			if (duplicate == false) {
+				bookList.push_back(newBook);
+			}
+		}
   }
-    return 0;  
+	input.clear();
+	for(book i: bookList) {
+		json currentBook = json::object({{"name",i.name}, {"amount", i.amount}, {"id", i.id}});
+		input.push_back(currentBook);
+	}
+	ofstream output("doc.json");
+	output << input.dump(4) << endl;
+	
+	return 0;  
 }
   
 
@@ -128,13 +144,15 @@ void readScreen() {
 	}
 	cout << "Please Select a Book From This List by The Book ID: ";
 	getUserOpt();
-  if (findletters(userOpt)) { // doesn't work 
-		cout << "Invalid Entry. Please make sure your id is only numbers." << endl;
-		return;
+	if(userOpt != "Q" && userOpt != "q") {
+	  // if (findletters(userOpt)) { // doesn't work 
+		// 	cout << "Invalid Entry. Please make sure your id is only numbers." << endl;
+		// 	return;
+		// }
+		book* selectedBook = findBook(stoi(userOpt));
+		cout << "Book: ";
+		selectedBook->print3Info();
 	}
-	book* selectedBook = findBook(stoi(userOpt));
-	cout << "Book: ";
-  selectedBook->print3Info();
 }
 
 void welcomeScreen() {
@@ -144,6 +162,8 @@ void welcomeScreen() {
 	return;
 }
 
+
+//TODO: Fix this! Need it to generate sane numbers
 int generateBookID() {
 	int id;
 	srand(static_cast<unsigned int>(time(nullptr)));
@@ -230,18 +250,18 @@ void writeMenu() {
 	
 //the main function that calls other functions depending on the screen shown.
 int main() {
-	book book1 = {"Elden Ring", 52, 69}; // Example Books
-	bookList.push_back(book1);
-	book book2 = {"Elden Roadffdsa", 523, 6379};
-	bookList.push_back(book2);
-	book book3 = {"Elden Roadffdsadfafasfads", 523, 6679};
-	bookList.push_back(book3);
-	book book4 = {"ask", 43, 659};
-	bookList.push_back(book4);
-  sync();
+	// book book1 = {"Elden Ring", 52, 69}; // Example Books
+	// bookList.push_back(book1);
+	// book book2 = {"Elden Roadffdsa", 523, 6379};
+	// bookList.push_back(book2);
+	// book book3 = {"Elden Roadffdsadfafasfads", 523, 6679};
+	// bookList.push_back(book3);
+	// book book4 = {"ask", 43, 659};
+	// bookList.push_back(book4);
 	while(true) {
 		if (isRunning) {
 			welcomeScreen();
+			sync();
 			if (userOpt.find("R") != string::npos || userOpt.find("r") != string::npos ) {
 				readScreen();
 			}

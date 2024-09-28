@@ -1,2 +1,4 @@
+.gitignore
 login.exe
 Bookmgr/Bookmgr.bin
+.vscode

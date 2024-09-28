@@ -1,4 +1,17 @@
 [
-  {"name" : "bingus", "id": 34, "amount": 64},
-  {"name": "bfl", "id": 542, "amount": 37}
+    {
+        "amount": 21,
+        "id": -1853898824,
+        "name": "Bingus"
+    },
+    {
+        "amount": 34,
+        "id": 10,
+        "name": "Bingus"
+    },
+    {
+        "amount": 21,
+        "id": 12,
+        "name": "Bingus"
+    }
 ]
