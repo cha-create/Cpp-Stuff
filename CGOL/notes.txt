@@ -1,0 +1,10 @@
+New project idea:
+  Conway's Game of Life
+
+  Without using graphics, we could have a 8x8(potentially) grid of 1's and 0's.
+  The grid could be a two-dimentional array. Every step of the program, we could
+  loop through each pixel and apply the rules individually. To prevent problems of
+  the array changing itself throught the program, we can duplicate the array. This
+  duplicate will be the one we apply the rules to. We get the current state of a cell
+  from the main array, apply the rules, and then write it to the duplicate. When we're
+  done will all the pixels, we set the main array = to the duplicate and write the output.
