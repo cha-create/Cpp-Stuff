@@ -1,5 +1,5 @@
-.gitignore
 login.exe
 Bookmgr/Bookmgr.bin
 CGOL/game.bin
+CGOL/game
 .vscode
